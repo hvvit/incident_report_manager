@@ -1,0 +1,79 @@
+<br>
+<div class="row">
+<div class = "col">
+  <div class = "card border-dark">
+    <h5 class = "card-header">Add Template</h5>
+    <div class = "card-body">
+      <form action = "#" phx-submit="add">
+        <div class = "row">
+          <div class = "col">
+            <%= label :templates, "Owner" %>
+            <%= text_input :templates, :owner, placeholder: "Owner", class: "form-control" %>
+          </div>
+          <div class = "col">
+            <%= label :templates, "Product" %>
+            <%= text_input :templates, :product, placeholder: "Product/Service", class: "form-control" %>
+          </div>
+          <div class = "col">
+            <%= label :templates, "Impact" %>
+            <%= select :templates, :impact, [low: "low", medium: "medium", high: "high"], prompt: "Please select the impact", class: "form-control" %>
+          </div>
+        </div>
+        <br>
+        <div class = "row">
+          <div class = "col">
+            <%= label :templates, "Observation" %>
+            <%= textarea :templates, :observation, placeholder: "Please enter your observations", rows: 3, class: "form-control" %>
+          </div>
+          <div class = "col">
+            <%= label :templates, "Cause" %>
+            <%= textarea :templates, :cause, placeholder: "Please enter the cause..", rows: 3, class: "form-control" %>
+          </div>
+        </div>
+        <br>
+        <div class = "row">
+          <div class = "col">
+            <%= submit "Add", phx_disable_with: "Adding...", class: "btn btn-primary" %>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+</div>
+<br>
+<div class = "row">
+  <div class = "col">
+    <div class = "card border-dark" style = "height: 400px !important; overflow-y: auto;">
+      <%# <h5 class = "card-header">Templates</h5> %>
+      <div class = "card-body">
+        <table class = "table table-hover" >
+          <thead>
+            <tr>
+              <th scope="col">Owner</th>
+              <th scope="col">Product</th>
+              <th scope="col">Impact</th>
+              <th scope="col">Cause</th>
+              <th scope="col">Observation</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <%= for template <- @templates do %>
+            <tr>
+              <td><%= template.owner %></td>
+              <td><%= template.product %></td>
+              <td><%= case template.impact do
+                          "low" -> html_escape({:safe,"<span class='badge rounded-pill bg-info'>low</span>"})
+                          "high" -> html_escape({:safe,"<span class='badge rounded-pill bg-danger'>high</span>"})
+                          "medium" -> html_escape({:safe,"<span class='badge rounded-pill bg-warning'>medium</span>"})
+                      end %>
+              </td>
+              <td><%= template.cause %></td>
+              <td><%= template.observation %></td>
+              <td><button phx-click="delete_template" phx-value-id="<%= template.id %>" class="btn btn-danger btn-sm btn-block">X</button></td>
+            </tr>
+          <% end %>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
